@@ -6,7 +6,7 @@
 int main(int argc, char const *argv[])
 {
     char line[256];
-    int text_found = 0, data_found = 0, heap_found = 0, stack_found = 0;
+    int text_found = 0, data_found = 0, heap_found = 0, stack_found = 0, bss_found = 0;
 
     DIR* dir = opendir("/proc/1");
     if (!dir)
@@ -34,6 +34,11 @@ int main(int argc, char const *argv[])
         {
             printf("\tdata\n");
             data_found = 1;
+        }
+        else if (!bss_found && strstr(line, "rw-p") != NULL)
+        {
+            printf("\tBSS\n");
+            bss_found = 1;
         }
         else if (!heap_found && strstr(line, "[heap]") != NULL)
         {
