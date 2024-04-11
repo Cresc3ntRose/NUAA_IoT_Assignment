@@ -1,8 +1,6 @@
 #include <stdio.h>
 
-#define __LINUX
-
-#ifdef __LINUX  // 进入 Linux 系统
+#ifndef  _WIN32 // 进入 Linux 系统
     #include <stdlib.h>
     #include <string.h>
     #include <dirent.h>
