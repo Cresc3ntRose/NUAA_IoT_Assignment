@@ -85,7 +85,7 @@ int main() {
     segment_info_t segments[] = {
         {"text", 0, TEXT},
         {"data", 0, DATA},
-        {"bss", 0, BSS},
+        {"BSS", 0, BSS},
         {"heap", 0, HEAP},
         {"stack", 0, STACK}
     };
@@ -113,10 +113,10 @@ int main() {
             else if (mbi.Protect & PAGE_READWRITE)
                 if (mbi.AllocationBase == mbi.BaseAddress)
                     for (int i = 0; i < 5; i ++ )
-                        if (segments[i].SEG == DATA && !data_found)
+                        if (segments[i].SEG == BSS && !bss_found)
                         {
                             segments[i].start_address = (DWORD_PTR)mbi.BaseAddress;
-                            data_found = 1;
+                            bss_found = 1;
                             break;
                         }
                 else
@@ -129,10 +129,10 @@ int main() {
                         }
             else if (mbi.Protect & PAGE_READONLY)
                 for (int i = 0; i < 5; i ++ )
-                    if (segments[i].SEG == BSS && !bss_found)
+                    if (segments[i].SEG == DATA && !data_found)
                     {
                         segments[i].start_address = (DWORD_PTR)mbi.BaseAddress;
-                        bss_found = 1;
+                        data_found = 1;
                         break;
                     }
         addr += mbi.RegionSize;
