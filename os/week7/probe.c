@@ -66,46 +66,91 @@ release:
 #else // 进入 Windows 系统
     #include <windows.h>
 
-int main()
+enum SEG {
+    TEXT,
+    DATA,
+    BSS,
+    HEAP,
+    STACK
+};
+
+typedef struct segment_info_t
 {
+    char* name;
+    DWORD start_address;
+    int SEG;
+} segment_info_t;
+
+int main() {
+    segment_info_t segments[] = {
+        {"text", 0, TEXT},
+        {"data", 0, DATA},
+        {"bss", 0, BSS},
+        {"heap", 0, HEAP},
+        {"stack", 0, STACK}
+    };
+
+    int text_found = 0, data_found = 0, heap_found = 0, bss_found = 0;
     HANDLE hProcess = GetCurrentProcess();
     MEMORY_BASIC_INFORMATION mbi;
     DWORD_PTR addr = 0;
 
-    DWORD_PTR segments[5] = {0};
-    char* segment_names[5] = {"text", "data", "BSS", "heap", "stack"};
-    int segment_index = 0;
+    SYSTEM_INFO sysinfo;
+    GetSystemInfo(&sysinfo);
+    segments[STACK].start_address = (DWORD_PTR)sysinfo.lpMaximumApplicationAddress;
 
     while (VirtualQuery((LPCVOID)addr, &mbi, sizeof(mbi)) != 0)
     {
         if (mbi.State == MEM_COMMIT && mbi.Type == MEM_PRIVATE)
             if (mbi.Protect & PAGE_EXECUTE_READ)
-                segments[segment_index ++ ] = (DWORD_PTR)mbi.BaseAddress;
-            else if (mbi.Protect & PAGE_READWRITE) 
-                if (addr == (DWORD_PTR)mbi.BaseAddress)
-                    segments[segment_index ++ ] = (DWORD_PTR)mbi.BaseAddress;
+                for (int i = 0; i < 5; i ++ )
+                    if (segments[i].SEG == TEXT && !text_found)
+                    {
+                        segments[i].start_address = (DWORD_PTR)mbi.BaseAddress;
+                        text_found = 1;
+                        break;
+                    }
+            else if (mbi.Protect & PAGE_READWRITE)
+                if (mbi.AllocationBase == mbi.BaseAddress)
+                    for (int i = 0; i < 5; i ++ )
+                        if (segments[i].SEG == DATA && !data_found)
+                        {
+                            segments[i].start_address = (DWORD_PTR)mbi.BaseAddress;
+                            data_found = 1;
+                            break;
+                        }
                 else
-                    segments[segment_index ++ ] = (DWORD_PTR)mbi.BaseAddress;
+                    for (int i = 0; i < 5; i ++ )
+                        if (segments[i].SEG == HEAP && !heap_found)
+                        {
+                            segments[i].start_address = (DWORD_PTR)mbi.BaseAddress;
+                            heap_found = 1;
+                            break;
+                        }
             else if (mbi.Protect & PAGE_READONLY)
-                segments[segment_index ++ ] = (DWORD_PTR)mbi.BaseAddress;
+                for (int i = 0; i < 5; i ++ )
+                    if (segments[i].SEG == BSS && !bss_found)
+                    {
+                        segments[i].start_address = (DWORD_PTR)mbi.BaseAddress;
+                        bss_found = 1;
+                        break;
+                    }
         addr += mbi.RegionSize;
     }
 
     printf("In a Windows system, output the relative positions of each segment from low address to high address sequentially:\n");
-    for (int i = 0; i < 5; i ++ )
-        for (int j = 0; j < 5; j ++ )
-        {
-            if (segments[i] == 0)
-                break;
-            if (segments[j] == 0)
-                continue;
-            if (segments[i] == segments[j])
+    for (int i = 0; i < 5; i++)
+        for (int j = 0; j < 4 - i; j++)
+            if (segments[j].start_address > segments[j + 1].start_address)
             {
-                printf("\t%s\n", segment_names[j]);
-                segments[j] = 0;
-                break;
+                segment_info_t temp = segments[j];
+                segments[j] = segments[j + 1];
+                segments[j + 1] = temp;
             }
-        }
+
+    for (int i = 0; i < 5; i++)
+        printf("\t%s\n", segments[i].name);
+    
 
     return 0;
 }
