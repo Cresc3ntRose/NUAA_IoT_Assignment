@@ -139,8 +139,8 @@ int main() {
     }
 
     printf("In a Windows system, output the relative positions of each segment from low address to high address sequentially:\n");
-    for (int i = 0; i < 5; i++)
-        for (int j = 0; j < 4 - i; j++)
+    for (int i = 0; i < 5; i ++ )
+        for (int j = 0; j < 4 - i; j ++ )
             if (segments[j].start_address > segments[j + 1].start_address)
             {
                 segment_info_t temp = segments[j];
@@ -150,7 +150,6 @@ int main() {
 
     for (int i = 0; i < 5; i++)
         printf("\t%s\n", segments[i].name);
-    
 
     return 0;
 }
