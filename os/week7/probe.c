@@ -80,14 +80,14 @@ int main()
     {
         if (mbi.State == MEM_COMMIT && mbi.Type == MEM_PRIVATE)
             if (mbi.Protect & PAGE_EXECUTE_READ)
-                segments[segment_index++] = (DWORD_PTR)mbi.BaseAddress;
+                segments[segment_index ++ ] = (DWORD_PTR)mbi.BaseAddress;
             else if (mbi.Protect & PAGE_READWRITE) 
                 if (addr == (DWORD_PTR)mbi.BaseAddress)
-                    segments[segment_index++] = (DWORD_PTR)mbi.BaseAddress;
+                    segments[segment_index ++ ] = (DWORD_PTR)mbi.BaseAddress;
                 else
-                    segments[segment_index++] = (DWORD_PTR)mbi.BaseAddress;
+                    segments[segment_index ++ ] = (DWORD_PTR)mbi.BaseAddress;
             else if (mbi.Protect & PAGE_READONLY)
-                segments[segment_index++] = (DWORD_PTR)mbi.BaseAddress;
+                segments[segment_index ++ ] = (DWORD_PTR)mbi.BaseAddress;
         addr += mbi.RegionSize;
     }
 
