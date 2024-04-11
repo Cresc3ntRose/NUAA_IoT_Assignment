@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// #define __LINUX
+#define __LINUX
 
 #ifdef __LINUX  // 进入 Linux 系统
     #include <stdlib.h>
