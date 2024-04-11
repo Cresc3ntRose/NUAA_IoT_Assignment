@@ -60,3 +60,35 @@
 * 定义了一个 `text_segment_function()` 函数，它位于代码段(text segment)中.
 * 尝试将 `text_segment_function()` 的地址赋值给一个函数指针(`text_func = text_segment_function;`)并调用(`text_func();`)成功，说明代码段的数据可执行.
 * 尝试修改代码段的内容(`text_buffer[0] = 'X';`)会导致段错误，说明代码段是只读的.
+
+在 Linux 系统下，我尝试使用 rust 来实现这个功能，最终得到了与 `checker.c` 相同的[结果](./images/Checker_Rust.png)，其中 `main.rs` 的[代码](./checker/src/main.rs)如下：
+```rust line-numbers
+fn check_memory_attributes() {
+    // 栈
+    let stack_var: u32 = 42;
+    println!("Stack memory is readable and writable, but not executable.");
+    println!("Value of stack variable: {}", stack_var);
+
+    // 堆
+    let heap_var = Box::new(42u32);
+    println!("Heap memory is readable and writable, but not executable.");
+    println!("Value of heap variable: {}", *heap_var);
+
+    // 数据区
+    static DATA_VAR: u32 = 42;
+    println!("Data segment is readable and writable, but not executable.");
+    println!("Value of data variable: {}", DATA_VAR);
+
+    // 代码段
+    let code_segment_address = check_memory_attributes as *const fn();
+    println!("Code segment is readable and executable, but not writable.");
+    unsafe {
+        println!("Value at code segment address: {:?}", code_segment_address);
+    }
+}
+
+fn main() {
+    check_memory_attributes();
+}
+
+```
