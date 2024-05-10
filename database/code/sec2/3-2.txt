@@ -1,0 +1,3 @@
+GET W(SPJ.SNO) :
+    SPJ.JNO = 'J1'
+    ∧ SPJ.PNO = 'P1'

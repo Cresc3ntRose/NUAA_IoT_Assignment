@@ -1,0 +1,8 @@
+RANGE P PX
+      SPJ SPJX
+      SPJ SPJY
+GET W(J.JNO) :
+    ∀PX(∃SPJX(SPJX.PNO = PX.PNO 
+            ∧ SPJX.SNO = 'S1')
+        ⇒ ∃SPJY(SPJY.JNO = J.JNO
+            ∧ SPJY.PNO = PX.PNO))

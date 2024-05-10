@@ -1,0 +1,5 @@
+RANGE P PX
+GET W(SPJ.SNO) :
+    SPJ.JNO = 'J1'
+    ∧ ∃PX(PX.COLOR = '红'
+           ∧ PX.PNO = SPJ.PNO)

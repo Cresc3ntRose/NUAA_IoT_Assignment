@@ -1,0 +1,9 @@
+RANGE S SX
+      P PX
+      SPJ SPJX
+GET W(J.JNO) :
+    ¬∃SPJX(SPJX.JNO = J.JNO
+        ∧ ∃SX(SX.SNO = SPJX.SNO
+            ∧ SX.CITY ='天津'
+            ∧ ∃PX(PX.PNO=SPJX.PNO
+                ∧ PX.COLOR ='红'))
