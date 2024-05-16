@@ -39,8 +39,20 @@
     captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
     frame               =   lrtb,   % 显示边框
 }
-\lstdefinestyle{C}{
-    language        =   C, % 语言选C
+% \lstdefinestyle{C}{
+%     language        =   C, % 语言选C
+%     basicstyle      =   \zihao{-5}\ttfamily,
+%     numberstyle     =   \zihao{-5}\ttfamily,
+%     keywordstyle    =   \color{blue},
+%     keywordstyle    =   [2] \color{teal},
+%     stringstyle     =   \color{magenta},
+%     commentstyle    =   \color{red}\ttfamily,
+%     breaklines      =   true,   % 自动换行，建议不要写太长的行
+%     columns         =   fixed,  % 如果不加这一句，字间距就不固定，很丑，必须加
+%     basewidth       =   0.5em,
+% }
+\lstdefinestyle{SQL}{
+    language        =   SQL, % 语言选C
     basicstyle      =   \zihao{-5}\ttfamily,
     numberstyle     =   \zihao{-5}\ttfamily,
     keywordstyle    =   \color{blue},
@@ -51,7 +63,6 @@
     columns         =   fixed,  % 如果不加这一句，字间距就不固定，很丑，必须加
     basewidth       =   0.5em,
 }
-
 
 
 % 设置思源宋体为中文字体
@@ -224,13 +235,13 @@
     \end{figure}
 \end{solution}
 
-\begin{problem}
+\begin{problem} \label{2-6}
     设有一个$\mathbf{SPJ}$数据库，包括四个关系模式 $\mathbf{S}$、$\mathbf{P}$、$\mathbf{J}$ 和$\mathbf{SPJ}$.
     $$\begin{aligned}
         & \mathrm{S(SNO, SNAME, STATUS, CITY);}  \\
         & \mathrm{P(PNO, PNAME, COLOR, WEIGHT);} \\
         & \mathrm{J(JNO, JNAME, CITY);}          \\
-        & \mathrm{SPJ(SNO, PNO, JNO, QTY)};
+        & \mathrm{SPJ(SNO, PNO, JNO, QTY)}.
     \end{aligned}$$
 
     供应商表$\mathbf{S}$由供应商代码(SNO)、供应商姓名(SNAME)、供应商状态(STATUS)、供应商所在城市(CITY)组成.
@@ -389,6 +400,357 @@
                   $$R \div S = \Pi_{A_1,A_2,\ldots,A_m}(R) - \Pi_{A_1,A_2,\ldots,A_m}((\Pi_{A_1,A_2,\ldots,A_m}(R) \times \Pi_{B_1,B_2,\ldots,B_n}(S)) - R)$$
         \end{itemize}
     \end{itemize}
+\end{solution}
+
+\newpage
+\section{第三章作业}
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+    有两个关系 $\mathbf{S}(A, B, C, D)$ 和 $\mathbf{T}(C, D, E, F)$, 写出与下列查询等价的 SQL 表达式:
+    \begin{enumerate}[(1)]
+        \item $\sigma_{A = 10}(\mathbf{S})$.
+        \item $\Pi_{A, B}(\mathbf{S})$.
+        \item $\mathbf{S} \bowtie \mathbf{T}$.
+        \item $\mathbf{S} \mathop{\bowtie}\limits_{\mathbf{S}.C = \mathbf{T}.C} \mathbf{T}$.
+        \item $\mathbf{S} \mathop{\bowtie}\limits_{A < E} \mathbf{T}$.
+        \item  $\Pi_{C, D}(\mathbf{S}) \times \mathbf{T}$.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[(1)]
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-1-1_code}
+            ]{./code/sec3/3-1-1.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-1-2_code}
+            ]{./code/sec3/3-1-2.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-1-3_code}
+            ]{./code/sec3/3-1-3.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-1-4_code}
+            ]{./code/sec3/3-1-4.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-1-5_code}
+            ]{./code/sec3/3-1-5.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-1-6_code}
+            ]{./code/sec3/3-1-6.sql}
+    \end{enumerate}
+\end{solution}
+
+\begin{problem}
+    使用 SQL 语句建立(\hyperref[2-6]{题目2-6})中 SPJ 数据库的四个表($\mathbf{S}$、$\mathbf{P}$、$\mathbf{J}$和$\mathbf{SPJ}$)，并针对建立的四个表用 SQL 语句完成(\hyperref[2-6]{题目2-6})中的查询.
+\end{problem}
+
+\begin{solution}
+    \begin{itemize}
+        \item 建表:
+            \begin{itemize}
+                \item 建 $\mathbf{S}$ 表:
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-1_code}
+                    ]{./code/sec3/3-2-1.sql}
+                \item 建 $\mathbf{P}$ 表:
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-2_code}
+                    ]{./code/sec3/3-2-2.sql}
+                \item 建 $\mathbf{J}$ 表:
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-3_code}
+                    ]{./code/sec3/3-2-3.sql}
+                \newpage
+                \item 建 $\mathbf{SPJ}$ 表:
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-4_code}
+                    ]{./code/sec3/3-2-4.sql}
+            \end{itemize}
+        \item 查询:
+            \begin{enumerate}[(1)]
+                \item \ 
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-5_code}
+                    ]{./code/sec3/3-2-5.sql}
+                \item \ 
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-6_code}
+                    ]{./code/sec3/3-2-6.sql}
+                \item \ 
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-7_code}
+                    ]{./code/sec3/3-2-7.sql}
+                \item \ 
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-8_code}
+                    ]{./code/sec3/3-2-8.sql}
+                \newpage
+                \item \ 
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-2-9_code}
+                    ]{./code/sec3/3-2-9.sql}
+            \end{enumerate}
+    \end{itemize}
+\end{solution}
+
+\begin{problem}
+    针对(\hyperref[2-6]{题目2-6})中的四个表($\mathbf{S}$、$\mathbf{P}$、$\mathbf{J}$和$\mathbf{SPJ}$)，试用 SQL 完成以下各项操作:
+    \begin{enumerate}[(1)]
+        \item 找出所有供应商的姓名和所在城市.
+        \item 找出所有零件的名称、颜色、重量.
+        \item 找出使用供应商 S1 所供应零件的工程代码.
+        \item 找出工程项目 J2 使用的各种零件的名称及其数量.
+        \item 找出上海厂商供应的所有零件代码.
+        \item 找出使用上海产的零件的工程名称.
+        \item 找出没有使用天津产的零件的工程代码.
+        \item 把全部红色零件的颜色改成蓝色.
+        \item 把由 S5 供给 J2 的零件 P6 改为由 S3 供应.
+        \item 从供应商关系中删除 S2 的记录，并从供应情况关系中删除相应的记录.
+        \item 请将 (S2, J6, P4, 200) 插入供应情况关系.
+    \end{enumerate}
+\end{problem}
+
+\newpage
+\begin{solution}
+    \begin{enumerate}[(1)]
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-1_code}
+            ]{./code/sec3/3-3-1.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-2_code}
+            ]{./code/sec3/3-3-2.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-3_code}
+            ]{./code/sec3/3-3-3.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-4_code}
+            ]{./code/sec3/3-3-4.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-5_code}
+            ]{./code/sec3/3-3-5.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-6_code}
+            ]{./code/sec3/3-3-6.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-7_code}
+            ]{./code/sec3/3-3-7.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-8_code}
+            ]{./code/sec3/3-3-8.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-9_code}
+            ]{./code/sec3/3-3-9.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-10_code}
+            ]{./code/sec3/3-3-10.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-3-11_code}
+            ]{./code/sec3/3-3-11.sql}
+        
+    \end{enumerate}
+\end{solution}
+
+\newpage
+\begin{problem}
+    针对(\hyperref[2-6]{题目2-6})中的四个表($\mathbf{S}$、$\mathbf{P}$、$\mathbf{J}$和$\mathbf{SPJ}$)，为三建工程项目建立一个供应情况的视图，包括供应商代码(SNO)、零件代码(PNO)、供应数量(QTY). 针对该视图完成下列查询:
+    \begin{enumerate}[(1)]
+        \item 找出三建工程项目使用的各种零件代码及其数量.
+        \item 找出供应商 S1 供应三建工程情况.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \begin{itemize}
+        \item 创建视图:
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {3-4-1_code}
+            ]{./code/sec3/3-4-1.sql}
+        \item 查询
+            \begin{enumerate}[(1)]
+                \item \ 
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-4-2_code}
+                    ]{./code/sec3/3-4-2.sql}
+                \item \ 
+                    \lstinputlisting[
+                        style       =   SQL,
+                        % caption     =   {\bf probe.c},
+                        label       =   {3-4-3_code}
+                    ]{./code/sec3/3-4-3.sql}
+            \end{enumerate}
+    \end{itemize}
+\end{solution}
+
+\newpage
+\section{第四章作业}
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+    今有以下两个关系模式:
+    $$\begin{aligned}
+        & \text{\textbf{职工}(职工号, 姓名, 年龄, 职务, 工资, 部门号)};  \\
+        & \text{\textbf{部门}(部门号, 名称, 经理名, 地址, 电话号)}. \\
+    \end{aligned}$$
+    请用 SQL 的 GRANT 语句和 REVOKE 语句(加上视图机制)实现以下授权定义和存取控制的功能:
+    \begin{enumerate}[(1)]
+        \item 用户王明对两个表有 SELECT 权限.
+        \item 用户李勇对两个表有 INSERT 和 DELETE 权限.
+        \item 每个职工只对自己的记录有 SELECT 权限.
+        \item 用户刘星对职工表有 SELECT 权限，对``工资"字段具有更新权限.
+        \item 用户张新具有修改这两个表的结构的权限.
+        \item 用户周平具有对两个表的所有权限，并具有给其他用户授权的权限.
+        \item 用户杨兰具有从每个部门职工中 SELECT 最高工资、最低工资、平均工资的权限，但不能查看每个人的工资.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[(1)]
+        \item \  
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {4-1-1_code}
+            ]{./code/sec4/4-1-1.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {4-1-2_code}
+            ]{./code/sec4/4-1-2.sql}
+        \item \  
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {4-1-3_code}
+            ]{./code/sec4/4-1-3.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {4-1-4_code}
+            ]{./code/sec4/4-1-4.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {4-1-5_code}
+            ]{./code/sec4/4-1-5.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {4-1-6_code}
+            ]{./code/sec4/4-1-6.sql}
+        \item \ 
+            \lstinputlisting[
+                style       =   SQL,
+                % caption     =   {\bf probe.c},
+                label       =   {4-1-7_code}
+            ]{./code/sec4/4-1-7.sql}
+    \end{enumerate}
+\end{solution}
+
+\newpage
+\section{第五章作业}
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+    假设有下面两个关系模式:
+    $$\begin{aligned}
+        & \text{\textbf{职工}(职工号, 姓名, 出生日期, 职务, 工资, 部门号), 其中职工号为主码};  \\
+        & \text{\textbf{部门}(部门号, 名称, 经理姓名, 电话), 其中部门号为主码}. \\
+    \end{aligned}$$
+    用 SQL 定义这两个关系模式，要求在模式中完成以下完整性约束的定义:
+    \begin{enumerate}[(1)]
+        \item 定义每个模式的主码.
+        \item 定义参照完整性约束.
+        \item 定义职工年龄不超过 65 岁.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \lstinputlisting[
+        style       =   SQL,
+        % caption     =   {\bf probe.c},
+        label       =   {5-1-1_code}
+    ]{./code/sec5/5-1-1.sql}
 \end{solution}
 
 % \newpage
