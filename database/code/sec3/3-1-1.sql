@@ -1,0 +1,3 @@
+SELECT *
+FROM S
+WHERE A = '10';

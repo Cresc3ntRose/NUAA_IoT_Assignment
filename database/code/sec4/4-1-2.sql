@@ -1,0 +1,3 @@
+GRANT INSERT, DELETE
+ON TABLE '职工', '部门'
+TO '李勇';

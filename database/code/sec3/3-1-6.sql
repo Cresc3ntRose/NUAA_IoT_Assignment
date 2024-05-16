@@ -1,0 +1,2 @@
+SELECT S.C, S.D, T.*
+FROM S, T;

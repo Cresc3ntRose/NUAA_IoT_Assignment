@@ -1,0 +1,5 @@
+CREATE TABLE J (
+    JNO CHAR(2),
+    JNAME VARCHAR(8),
+    CITY VARCHAR(6)
+);

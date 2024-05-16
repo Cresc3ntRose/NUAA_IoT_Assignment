@@ -1,0 +1,3 @@
+SELECT *
+FROM S, T
+WHERE S.C = T.C;
