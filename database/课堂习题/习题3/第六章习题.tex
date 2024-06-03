@@ -1,0 +1,375 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, enumerate, framed, graphicx, longtable, mathrsfs, subfigure, tikz}
+\usepackage{geometry}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+
+% 超链接设置
+\usepackage{hyperref}
+\hypersetup{  
+    colorlinks = true,    % 更改链接颜色  
+    linkcolor = purple,      % 链接颜色  
+    urlcolor = blue,        % URL 颜色  
+    citecolor = green,     % 引用颜色  
+    % underline = true,  
+    linkbordercolor = red,
+}
+% \hypersetup{colorlinks=true,linkcolor=black}
+
+% 附录
+\newcommand{\append}{\textsc{Appendix}}
+
+%代码包设置
+\usepackage{listings}
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,  % 字符串风格
+    flexiblecolumns,                % 别问为什么，加上这个
+    numbers             =   left,   % 行号的位置在左边
+    showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,   % 显示边框
+}
+% \lstdefinestyle{C}{
+%     language        =   C, % 语言选C
+%     basicstyle      =   \zihao{-5}\ttfamily,
+%     numberstyle     =   \zihao{-5}\ttfamily,
+%     keywordstyle    =   \color{blue},
+%     keywordstyle    =   [2] \color{teal},
+%     stringstyle     =   \color{magenta},
+%     commentstyle    =   \color{red}\ttfamily,
+%     breaklines      =   true,   % 自动换行，建议不要写太长的行
+%     columns         =   fixed,  % 如果不加这一句，字间距就不固定，很丑，必须加
+%     basewidth       =   0.5em,
+% }
+\lstdefinestyle{Python}{
+    language        =   Python, % 语言选Python
+    basicstyle      =   \zihao{-5}\ttfamily,
+    numberstyle     =   \zihao{-5}\ttfamily,
+    keywordstyle    =   \color{blue},
+    keywordstyle    =   [2] \color{teal},
+    stringstyle     =   \color{magenta},
+    commentstyle    =   \color{red}\ttfamily,
+    breaklines      =   true,   % 自动换行，建议不要写太长的行
+    columns         =   fixed,  % 如果不加这一句，字间距就不固定，很丑，必须加
+    basewidth       =   0.5em,
+}
+
+% 设置思源宋体为中文字体
+\setCJKsansfont{Source Han Serif SC}
+
+% 设置思源黑体为中文字体
+\setCJKsansfont{Source Han Sans SC}
+
+% 设置arev为英文字体
+\setsansfont{Arev Sans}
+
+% 字体颜色
+\def\red{\color{red}}
+\def\blue{\color{blue}}
+\def\black{\color{black}}
+\def\green{\color{green}}
+
+\title{\textbf{数据库原理课程作业}}
+\author{162140222黄钰轩}
+\date{\today}
+\linespread{1.25}
+
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+%\renewcommand{\proofname}{\bf 证明}
+
+\begin{document}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=13cm]{logo.png}
+\end{figure}
+
+\maketitle
+
+\begin{problem}
+    设有关系模式$R<U, F>$, 其中$U = \{ A, B, C, D, E \}, F = \{ A \rightarrow B, BC \rightarrow E, ED \rightarrow AB \}$.
+    \begin{enumerate}[(1)]
+        \item 计算$A_F^+$、$(AB)_F^+$、$(ABC)_F^+$、$(BCD)_F^+$.
+        \item 求$R$的所有候选码，并说明理由.
+        \item $R$最高满足第几范式？为什么？
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[(1)]
+        \item 
+            \begin{itemize}
+                \item $A_F^+$
+                \begin{enumerate}[$1^\circ$]
+                    \item 令$A^{(0)} = A$
+                    \item 在$F$中找到左边是$A$子集的函数依赖，有$A \rightarrow B$, \\
+                    则$A^{(1)} = A^{(0)}\bigcup B = AB$
+                    \item 虽然$A^{(1)} \not= A^{(0)}$，但是$F$中未用过的函数依赖的左边属性集中已经没有$A^{(1)}$自己了，因此可以退出循环
+                    \item 输出$A_F^+ = AB$
+                \end{enumerate}
+                \newpage
+                \item $(AB)_F^+$
+                \begin{enumerate}[$1^\circ$]
+                    \item 令$(AB)^{(0)} = AB$
+                    \item 在$F$中找到左边是$AB$子集的函数依赖，有$A \rightarrow B$, \\
+                    则$(AB)^{(1)} = (AB)^{(0)}\bigcup B = AB$
+                    \item $(AB)^{(1)} = (AB)^{(0)}$，退出循环
+                    \item 输出$(AB)_F^+ = AB$
+                \end{enumerate}
+                \item $(ABC)_F^+$
+                \begin{enumerate}[$1^\circ$]
+                    \item 令$(ABC)^{(0)} = ABC$
+                    \item 在$F$中找到左边是$ABC$子集的函数依赖，有$A \rightarrow B, BC \rightarrow E$, \\
+                    则$(ABC)^{(1)} = (ABC)^{(0)}\bigcup BE = ABCE$
+                    \item 虽然$(ABC)^{(1)} \not= (ABC)^{(0)}$，但是$F$中未用过的函数依赖的左边属性集中已经没有$(ABC)^{(1)}$自己了，因此可以退出循环
+                    \item 输出$(ABC)_F^+ = ABCE$
+                \end{enumerate}
+                \item $(BCD)_F^+$
+                \begin{enumerate}[$1^\circ$]
+                    \item 令$(BCD)^{(0)} = BCD$
+                    \item 在$F$中找到左边是$BCD$子集的函数依赖，有$BC \rightarrow E$, \\
+                    则$(BCD)^{(1)} = (BCD)^{(0)}\bigcup E = BCDE$
+                    \item 在$F$中找到左边是$BCDE$子集的函数依赖，有$ED \rightarrow AB$, \\
+                    则$(BCD)^{(2)} = (BCD)^{(1)}\bigcup AB = ABCDE$
+                    \item $(BCD)^{(2)} = U$，\\
+                    则$(BCD)^{(2)}$就是$(BCD)_F^+$
+                    \item 输出$(BCD)_F^+ = ABCDE$
+                \end{enumerate}
+            \end{itemize}
+        \item 
+            \begin{enumerate}[$1^\circ$]
+                \item 计算$L$类、$N$类、$LR$类属性. $L$类属性有$CD$, $N$类属性为空，\\
+                $LR$类属性有$ABE$. 令$X$为$L$类属性的集合，$Y$为$LR$类属性的集合
+                \item 计算属性集$X$关于$U$上的函数依赖集$F$的闭包$X_F^+$，有$X_F^+ = CD \not= U$
+                \item 遍历$Y$中的单一属性，并与$X$构成属性组，后计算闭包. 有:
+                    \begin{itemize}
+                        \item $(XA)_F^+ = (ACD)_F^+ = ABCDE$，因此$ACD$是候选码
+                        \item $(XB)_F^+ = (BCD)_F^+ = ABCDE$，因此$BCD$是候选码
+                        \item $(XE)_F^+ = (CDE)_F^+ = ABCDE$，因此$CDE$是候选码
+                    \end{itemize}
+            \end{enumerate}
+            综上，关系模式$R<U, F>$的所有候选码为$ACD$、$BCD$、$CDE$.
+        \newpage
+        \item 
+            \begin{enumerate}[$1^\circ$]
+                \item 由于$BCD\rightarrow E, BC\rightarrow E$, 存在非主属性对码的部分函数依赖，所以$R$不满足 2NF.
+            \end{enumerate}
+
+            综上，$R$最高满足 1NF.
+        \end{enumerate}
+\end{solution}
+
+\begin{problem}
+    设有关系模式$R<U, F>$, 其中$U = \{ A, B, C, D, E, F \}$, \\$F = \{ A \rightarrow BC, CD \rightarrow E, B \rightarrow D, E \rightarrow A, CD \rightarrow A, A \rightarrow D \}$. 求: 
+    \begin{enumerate}[(1)]
+        \item 最小依赖集.
+        \item 所有的候选码.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[(1)]
+        \item 
+            \begin{enumerate}[$1^\circ$]
+                \item $F = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A, CD \rightarrow A, A \rightarrow D \}$
+                \item 
+                    \begin{itemize}
+                        \item 考察$A \rightarrow B, G = \{ A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A, CD \rightarrow A, A \rightarrow D \},$ \\
+                            $A_G^+ = ACDE, A \rightarrow B$ 保留
+                        \item 考察$A \rightarrow C, G = \{ A \rightarrow B, CD \rightarrow E, B \rightarrow D, E \rightarrow A, CD \rightarrow A, A \rightarrow D \},$ \\
+                        $A_G^+ = ABD, A \rightarrow C$ 保留
+                        \item 考察$CD \rightarrow E, G = \{ A \rightarrow B, A \rightarrow C, B \rightarrow D, E \rightarrow A, CD \rightarrow A, A \rightarrow D \},$ \\
+                        $(CD)_G^+ = ABCD, CD \rightarrow E$ 保留
+                        \item 考察$B \rightarrow D, G = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, E \rightarrow A, CD \rightarrow A, A \rightarrow D \},$ \\
+                        $B_G^+ = B, B \rightarrow D$ 保留
+                        \item 考察$E \rightarrow A, G = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, CD \rightarrow A, A \rightarrow D \},$ \\
+                        $E_G^+ = E, E \rightarrow A$ 保留
+                        \item 考察$CD \rightarrow A, G = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A, A \rightarrow D \},$ \\
+                        $(CD)_G^+ = ABCDE, CD \rightarrow A$ 是多余的
+                        \item 考察$A \rightarrow D, G = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A \},$ \\
+                        $A_G^+ = ABCDE, A \rightarrow D$ 是多余的
+                    \end{itemize}
+                    于是$H = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A \}$
+                \item 考察左部多余的属性
+                    \begin{itemize}
+                        \item 考察$CD \rightarrow E$
+                            \begin{itemize}
+                                \item $C_H^+ = C$, 不包含$E$, $C$ 保留
+                                \item $D_H^+ = D$, 不包含$E$, $D$ 保留
+                            \end{itemize}
+                    \end{itemize}
+            \end{enumerate}
+            于是$$F_{min} = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A \}$$
+            \newpage
+        \item $F = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A \}$
+            \begin{enumerate}[$1^\circ$]
+                \item 计算$L$类、$N$类、$LR$类属性. $L$类属性有$B$, $N$类属性为空，\\
+                $LR$类属性有$ACDE$. 令$X$为$L$类属性的集合，$Y$为$LR$类属性的集合
+                \item 计算属性集$X$关于$U$上的函数依赖集$F$的闭包$X_F^+$，有$X_F^+ = BD \not= U$
+                \item 遍历$Y$中的单一属性，并与$X$构成属性组，后计算闭包. 有:
+                    \begin{itemize}
+                        \item $(XA)_F^+ = (AB)_F^+ = ABCDE$，因此$AB$是候选码
+                        \item $(XC)_F^+ = (BC)_F^+ = BC \not= U$，因此$BC$不是候选码
+                        \item $(XD)_F^+ = (BD)_F^+ = BD \not= U$，因此$BD$不是候选码
+                        \item $(XE)_F^+ = (BE)_F^+ = ABCDE$，因此$BE$是候选码
+                    \end{itemize}
+                \item 此时 $Y = \{ C, D \}$, 遍历$Y$中的任意两个属性，并与$X$构成属性组，后计算闭包. 有:
+                    \begin{itemize}
+                        \item $Z = CD, (XZ)_F^+ = (BCD)_F^+ = ABCDE$，因此$BCD$是候选码
+                    \end{itemize}
+            \end{enumerate}
+            综上，关系模式$R<U, F>$的所有候选码为$AB$、$BE$、$BCD$.
+    \end{enumerate}
+\end{solution}
+
+\begin{problem}
+    给定关系$Q(A, B, C, D, E)$如\hyperref[Q]{表 1 }所示，试给出至少2个非对称多值依赖.
+\end{problem}
+
+\begin{longtable}{|c|c|c|c|c|}
+    \hline
+    \bf A & \bf B & \bf C & \bf D & \bf E \\
+    \hline
+    $a$ & $b$ & $c$ & $d$ & $e$ \\
+    \hline
+    $a$ & $b'$ & $c'$ & $d'$ & $e'$ \\
+    \hline
+    $a$ & $b$ & $c$ & $d'$ & $e'$ \\
+    \hline
+    $a$ & $b'$ & $c'$ & $d$ & $e$ \\
+    \hline
+    $a$ & $b$ & $c$ & $d$ & $e'$ \\
+    \hline
+    $a$ & $b$ & $c$ & $d'$ & $e$ \\
+    \hline
+    $a$ & $b'$ & $c'$ & $d'$ & $e$ \\
+    \hline
+    $a$ & $b'$ & $c'$ & $d$ & $e'$ \\
+    \hline
+    \caption{关系$Q$}
+    \label{Q}
+\end{longtable}
+
+\begin{solution}
+    \begin{itemize}
+        \item 
+            令$$X = \{ A, B \}, Y = \{ C \},$$
+            于是$$Z = U - X - Y = \{ D, E \}.$$
+            对于任意一对$(x, z)$, $y$的值仅由$x$决定而与$z$无关，
+            于是存在多值依赖$$X\rightarrow\rightarrow Y,$$
+            此时$X\rightarrow\rightarrow Z$并不成立, 所以$X\rightarrow\rightarrow Y$是一个非对称多值依赖.
+        \item 
+            令$$X = \{ A, C \}, Y = \{ B \},$$
+            于是$$Z = U - X - Y = \{ D, E \}.$$
+            对于任意一对$(x, z)$, $y$的值仅由$x$决定而与$z$无关，
+            于是存在多值依赖$$X\rightarrow\rightarrow Y,$$
+            此时$X\rightarrow\rightarrow Z$并不成立, 所以$X\rightarrow\rightarrow Y$是一个非对称多值依赖.
+    \end{itemize}
+\end{solution}
+
+\begin{problem}
+    试由 Armstrong 公理系统推导出下面的推理规则:
+    
+    若$A \rightarrow B, BC \rightarrow D$, 则有 $AC \rightarrow D$.
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[$1^\circ$]
+        \item 由题中给出$A \rightarrow B$成立，\\根据增广律，可以推出$AC\rightarrow BC$成立.
+        \item 由题中给出$BC \rightarrow D$成立，\\根据传递律，可以推出$AC\rightarrow D$成立，\\题目得证.
+    \end{enumerate}
+\end{solution}
+
+\begin{note}
+    本题事实上完成了\textbf{伪传递规则}的推导.
+\end{note}
+
+\newpage
+\begin{problem}
+    设有如\hyperref[S]{表 2 }所示的学生关系$S$.
+    \begin{enumerate}[(1)]
+        \item 试问$S$是否属于 3NF, 请做出判断并给出理由.
+        \item 若不是 3NF, 它属于第几范式.
+        \item 若不是 3NF, 请将其规范化为 3NF.
+    \end{enumerate}
+\end{problem}
+
+\begin{longtable}{|c|c|c|c|c|c|}
+    \hline
+    \bf 学号 & \bf 学生名 & \bf 年龄 & \bf 性别 & \bf 系号 & \bf 系名 \\
+    \hline
+    10001 & 王婧 & 18 & 女 & 1 & 通信工程 \\
+    20001 & 张露 & 19 & 女 & 2 & 电子工程 \\
+    20002 & 黎明远 & 20 & 男 & 2 & 电子工程 \\
+    30001 & 王烨 & 21 & 男 & 3 & 计算机 \\
+    30004 & 张露 & 20 & 女 & 3 & 计算机 \\
+    30005 & 潘建 & 19 & 男 & 3 & 计算机 \\
+    \hline
+    \caption{关系$S$}
+    \label{S}
+\end{longtable}
+
+\begin{solution}
+    令$\text{学号} = A, \text{学生名} = B, \text{年龄} = C, \text{性别} = D, \text{系号} = E, \text{系名} = F,$
+    则有关系模式$S<U,F>$, 其中
+    $$
+        \begin{aligned}
+            & U = \{A, B, C, D, E, F\} \\
+            & \begin{aligned}
+                F = \{ &A\rightarrow B, \\
+                & A\rightarrow C, \\
+                & A\rightarrow D, \\
+                & A\rightarrow E, \\
+                & A\rightarrow F, \\
+                & E\rightarrow F\}
+              \end{aligned}
+        \end{aligned}
+    $$
+    接下来求解$S$的所有候选码:
+    \begin{enumerate}[$1^\circ$]
+        \item 计算$L$类、$N$类、$LR$类属性. $L$类属性有$A$, $N$类属性为空，\\
+        $LR$类属性有$E$. 令$X$为$L$类属性的集合，$Y$为$LR$类属性的集合
+        \item 计算属性集$X$关于$U$上的函数依赖集$F$的闭包$X_F^+$，有$X_F^+ = ABCDE = U$
+        \item 因为$X = \{ A \}$, 因此$A$是唯一候选码
+    \end{enumerate}
+    综上，关系模式$S<U, F>$的所有候选码为$A$.
+    \begin{enumerate}[(1)]
+        \item 
+            有$$A\rightarrow E, E\rightarrow F,$$
+            且$$E\not\rightarrow A.$$
+            存在主属性对码的传递函数依赖，所以$S$不属于3NF.
+        \item 
+            \begin{enumerate}[$1^\circ$]
+                \item 不存在主属性对码的部分函数依赖，所以$S$最低满足2NF.
+                \item 存在主属性对码的传递函数依赖，所以$S$不满足3NF.
+            \end{enumerate}
+            综上，$S$ 最高满足 2NF.
+        \item 
+            可以将关系模式$S<U, F>$拆分为$S_1<U_1, F_1>$、$S_2<U_2, F_2>$与$S_3<U_3, F_3>$, 其中
+            $$
+                \begin{aligned}
+                    & U_1 = \{A, B, C, D\} \\
+                    & \begin{aligned}
+                        F_1 = \{ &A\rightarrow B, \\
+                        & A\rightarrow C, \\
+                        & A\rightarrow D\}
+                    \end{aligned} \\
+                    & U_2 = \{A, E\} \\
+                    & F_2 = \{A \rightarrow E\} \\
+                    & U_3 = \{E, F\} \\
+                    & F_3 = \{E \rightarrow F\} \\
+                \end{aligned}
+            $$
+            这样，便消除了主属性对码的部分和传递函数依赖.
+    \end{enumerate}
+\end{solution}
+
+\end{document}
