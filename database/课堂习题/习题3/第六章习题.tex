@@ -160,10 +160,12 @@
         \newpage
         \item 
             \begin{enumerate}[$1^\circ$]
-                \item 由于$BCD\rightarrow E, BC\rightarrow E$, 存在非主属性对码的部分函数依赖，所以$R$不满足 2NF.
+                \item 不存在非主属性对码的部分函数依赖，所以$R$至少满足 2NF.
+                \item 不存在非主属性对码的传递函数依赖，所以$R$至少满足 3NF.
+                \item 存在主属性对码的部分函数依赖，所以$R$不满足 BCNF.
             \end{enumerate}
 
-            综上，$R$最高满足 1NF.
+            综上，$R$最高满足 3NF.
         \end{enumerate}
 \end{solution}
 
@@ -208,25 +210,24 @@
                     \end{itemize}
             \end{enumerate}
             于是$$F_{min} = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A \}$$
-            \newpage
         \item $F = \{ A \rightarrow B, A \rightarrow C, CD \rightarrow E, B \rightarrow D, E \rightarrow A \}$
             \begin{enumerate}[$1^\circ$]
-                \item 计算$L$类、$N$类、$LR$类属性. $L$类属性有$B$, $N$类属性为空，\\
-                $LR$类属性有$ACDE$. 令$X$为$L$类属性的集合，$Y$为$LR$类属性的集合
-                \item 计算属性集$X$关于$U$上的函数依赖集$F$的闭包$X_F^+$，有$X_F^+ = BD \not= U$
+                \item 计算$L$类、$N$类、$LR$类属性. $L$类属性有$B$, $N$类属性有$F$，\\
+                $LR$类属性有$ACDE$. 令$X$为$L$类属性集与$N$类属性集的并集，$Y$为$LR$类属性的集合
+                \item 计算属性集$X$关于$U$上的函数依赖集$F$的闭包$X_F^+$，有$X_F^+ = BDF \not= U$
                 \item 遍历$Y$中的单一属性，并与$X$构成属性组，后计算闭包. 有:
                     \begin{itemize}
-                        \item $(XA)_F^+ = (AB)_F^+ = ABCDE$，因此$AB$是候选码
-                        \item $(XC)_F^+ = (BC)_F^+ = BC \not= U$，因此$BC$不是候选码
-                        \item $(XD)_F^+ = (BD)_F^+ = BD \not= U$，因此$BD$不是候选码
-                        \item $(XE)_F^+ = (BE)_F^+ = ABCDE$，因此$BE$是候选码
+                        \item $(XA)_F^+ = (ABF)_F^+ = ABCDEF$，因此$ABF$是候选码
+                        \item $(XC)_F^+ = (BCF)_F^+ = BCF \not= U$，因此$BCF$不是候选码
+                        \item $(XD)_F^+ = (BDF)_F^+ = BDF \not= U$，因此$BDF$不是候选码
+                        \item $(XE)_F^+ = (BEF)_F^+ = ABCDEF$，因此$BEF$是候选码
                     \end{itemize}
                 \item 此时 $Y = \{ C, D \}$, 遍历$Y$中的任意两个属性，并与$X$构成属性组，后计算闭包. 有:
                     \begin{itemize}
-                        \item $Z = CD, (XZ)_F^+ = (BCD)_F^+ = ABCDE$，因此$BCD$是候选码
+                        \item $Z = CD, (XZ)_F^+ = (BCDF)_F^+ = ABCDEF$，因此$BCDF$是候选码
                     \end{itemize}
             \end{enumerate}
-            综上，关系模式$R<U, F>$的所有候选码为$AB$、$BE$、$BCD$.
+            综上，关系模式$R<U, F>$的所有候选码为$ABF$、$BEF$、$BCDF$.
     \end{enumerate}
 \end{solution}
 
@@ -257,7 +258,7 @@
     \caption{关系$Q$}
     \label{Q}
 \end{longtable}
-
+\newpage
 \begin{solution}
     \begin{itemize}
         \item 
@@ -348,8 +349,8 @@
             存在主属性对码的传递函数依赖，所以$S$不属于3NF.
         \item 
             \begin{enumerate}[$1^\circ$]
-                \item 不存在主属性对码的部分函数依赖，所以$S$最低满足2NF.
-                \item 存在主属性对码的传递函数依赖，所以$S$不满足3NF.
+                \item 不存在非主属性对码的部分函数依赖，所以$S$最低满足2NF.
+                \item 存在非主属性对码的传递函数依赖，所以$S$不满足3NF.
             \end{enumerate}
             综上，$S$ 最高满足 2NF.
         \item 
