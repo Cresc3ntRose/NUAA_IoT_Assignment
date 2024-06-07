@@ -1,6 +1,6 @@
 % \documentclass[12pt, a4paper, oneside]{ctexart}
 \documentclass[12pt, oneside]{ctexart}
-\usepackage{amsmath, amsthm, amssymb, bm, color, enumerate, framed, graphicx, longtable, mathrsfs, subfigure, tikz}
+\usepackage{amsmath, amsthm, amssymb, bm, color, enumerate, framed, graphicx, longtable, mathrsfs, subfigure, tikz, ulem}
 % \usepackage[dvipsnames]{xcolor}
 % \usepackage{geometry}
 \usepackage[a4paper, total={145mm,210mm}]{geometry}
@@ -751,6 +751,277 @@
         % caption     =   {\bf probe.c},
         label       =   {5-1-1_code}
     ]{./code/sec5/5-1-1.sql}
+\end{solution}
+
+\newpage
+\section{第六章作业}
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+    理解并给出下列术语的定义:
+    
+    函数依赖、部分函数依赖、完全函数依赖、传递依赖、候选码、超码、主码、外码、全码、1NF、2NF、3NF、BCNF、多值依赖、4NF.
+\end{problem}
+
+\begin{solution}
+    \begin{itemize}
+        \item 函数依赖: 
+            \begin{itemize}
+                \item 对一关系$R(U)$, $X$和$Y$是其列集合$U$的子集，$t$和$l$分别是$R$中的任意两个元组.
+                \item 如果$t[X] = l[X]$, 则$t[Y] = l[Y]$，\textbf{\red 那么称$Y$函数依赖于$X$, 或者$X$函数决定$Y$, 记为$X \rightarrow Y$}.
+                \item 如果$Y$不依赖于$X$，则记为$X \not\rightarrow Y$. 如果$X \rightarrow Y$且$Y \rightarrow X$, 则$X$与$Y$一一对应，记为$X \leftrightarrow Y$
+            \end{itemize}
+        \item 完全函数依赖和部分函数依赖: 
+            \begin{itemize}
+                \item 假设$X$和$Y$是关系$R(U)$属性集$U$的不同子集，如有$X \rightarrow Y$且不存在$X$的真子集$X'$, 使得$X' \rightarrow Y$, 则有$X \xrightarrow{f} Y$, 称$Y$\textbf{\red 完全函数依赖}于$X$; 否则，记为$X \xrightarrow{p} Y$, 称作$Y$\textbf{\red 部分函数依赖}于$X$.
+            \end{itemize}
+        \item 传递依赖: 
+            \begin{itemize}
+                \item 如果$X$、$Y$和$Z$分别是关系$R(U)$不同的列属性集合，如果存在$X \rightarrow Y$, $Y \not\rightarrow X$, $Y \rightarrow Z$, 则称$Z$对$X$有\textbf{\red 传递函数依赖}.
+            \end{itemize}
+        \item 超码和候选码:
+            \begin{itemize}
+                \item 如果\uline{某一属性}或者\uline{某属性集合}可以唯一地标识不同的元组，则称这样的属性或者属性集为\textbf{\red 超码}.
+                \item 不含有多余属性的超码为\textbf{\red 候选码}，一个超码去除任意一个属性就不再是超码了.
+            \end{itemize}
+        \item 主码: 
+            \begin{itemize}
+                \item 一个关关系可能有一个或多个候选键，在定义关系数据库关系表的时候，一般选择一个最合适的候选键作为\textbf{\red 主码}，主码的不同取值必须唯一标识不同的元组.
+            \end{itemize}
+        \item 外码: 
+            \begin{itemize}
+                \item 关系模式$R$属性或属性组$X$并非$R$的主码，但是另一个关系模式的主码，则称$X$是$R$的外部码，也称\textbf{\red 外码}.
+            \end{itemize}
+        \item 全码: 
+            \begin{itemize}
+                \item 整个属性组是码，称为\textbf{\red 全码}(all-key).
+            \end{itemize}
+        \item 第一范式(1NF): 
+            \begin{itemize}
+                \item 关系$R$的每一属性都是不可再分的基本数据项，同一属性中不能有多个值，即关系表中的某个属性不能有多个值或者不能有重复的属性.
+            \end{itemize}
+        \item 第二范式(2NF): 
+            \begin{itemize}
+                \item 关系$R$首先要满足第一范式，并且每一个\textbf{\red 非主属性都完全函数依赖于任何一个候选码}.
+            \end{itemize}
+        \item 第三范式(3NF): 
+            \begin{itemize}
+                \item 关系$R$满足第一范式，并且\textbf{\red 不存在非主属性对候选码的传递函数依赖}.
+            \end{itemize}
+        \item 巴斯-科德范式(BCNF): 
+            \begin{itemize}
+                \item 关系$R$在满足第一范式的基础上，\textbf{\red 不存在\uline{任何属性}对候选码的传递函数依赖}
+            \end{itemize}
+        \item 多值依赖:
+            \begin{itemize}
+                \item 对于关系$R$的属性集$U$, 设$X$和$Y$是$U$的子集，$Z = U - X - Y$, 令$(x, y, z)$表示属性集$(X, Y, Z)$的元组. 如果存在$(x, y_1, z_1)$和$(x, y_2, z_2)$时，也存在$(x, y_1, z_2)$和$(x, y_2, z_1)$, 那么称\textbf{\red 多值函数依赖}$X \rightarrow\rightarrow Y$在关系$R$上成立.
+            \end{itemize}
+        \item 第四范式(4NF): 
+            \begin{itemize}
+                \item 关系$R$在满足巴斯-科德范式的基础上，消除了多值依赖.
+            \end{itemize} 
+    \end{itemize}
+\end{solution}
+
+\begin{problem}
+    建立一个包含系、学生、班级、学会等信息的关系数据库.
+    \begin{itemize}
+        \item 描述学生的属性有: 学号、姓名、 出生年月、系名、班号、宿舍区.
+        \item 描述班级的属性有: 班号、专业名、系名、人数、入校年份.
+        \item 描述系的属性有: 系名、系号、系办公室地点、人数.
+        \item 描述学会的属性有:学会名 、成立年份、地点、人数.
+    \end{itemize}
+    有关语义如下: 一个系有若干专业，每个专业每年只招一个班，每个班有若干学生. 一个系的学生住在同一宿舍区. 每个学生可参加若干学会，每个学会有若干学生. 学生参加某学会有一个入会年份.
+    
+    请给出关系模式，写出每个关系模式的最小依赖集，指出是否存在传递函数依赖，对于函数依赖左部是多属性的情况，讨论函数依赖是完全函数依赖，还是部分函数依赖.
+\end{problem}
+
+\begin{solution}
+    关系模式如下:
+    $$
+        \begin{array}{ll}
+            \text{学生: }      & S(Sno, Sname, Sbirth, Dname, Cno, Rno) \\
+            \text{班级: }      & C(Cno, Major, Dname, Cnum, Cyear) \\
+            \text{系: }        & D(Dno, Dname, Daddr, Dnum) \\
+            \text{学会: }      & P(Pname, Pyear, Paddr, Pnum) \\
+            \text{学生-学会: } & SP(Sno, Pname, SPyear)
+        \end{array}
+    $$
+    每个关系模式的最小依赖集如下:
+    \begin{itemize}
+        \item $S$: 
+            $$
+                \begin{aligned}
+                    F_m = \{
+                        & Sno \rightarrow Sname, Sno \rightarrow Sbirth, Sno \rightarrow Cno, \\
+                        & Cno \rightarrow Dname, Dname \rightarrow Rno \}
+                \end{aligned}
+            $$
+        \item $C$:
+            $$
+                \begin{aligned}
+                    F_m = \{
+                    & Cno \rightarrow Major, Cno \rightarrow Cnum, Cno \rightarrow Cyear, \\
+                    & Major \rightarrow Dname, (Major, Cyear) \rightarrow Cno \}
+                \end{aligned}
+            $$
+        \item $D$:
+            $$
+                \begin{aligned}
+                    F_m = \{
+                    & Dno \rightarrow Dname, Dno \rightarrow Daddr, Dno \rightarrow Dnum, \\
+                    & Dname \rightarrow Dno \}
+                \end{aligned}
+            $$
+        \item $P$:
+            $$
+                \begin{aligned}
+                    F_m = \{
+                    & Pname \rightarrow Pyear, Pname \rightarrow Paddr, \\
+                    & Pname \rightarrow Pnum \}
+                \end{aligned}
+            $$
+        \item $SP$:
+            $$
+                \begin{aligned}
+                    F_m = \{
+                    & (Sno, Pname) \rightarrow SPyear \}
+                \end{aligned}
+            $$
+    \end{itemize}
+    \newpage
+    传递函数依赖如下:
+        \begin{itemize}
+            \item $S$中存在传递函数依赖
+                $$Sno \rightarrow Dname, Sno \rightarrow Rno, Cno \rightarrow Rno$$
+            \item $C$中存在传递函数依赖
+                $$Cno \rightarrow Dname$$
+        \end{itemize}
+    共有两个函数依赖左部是多属性的情况:
+        \begin{itemize}
+            \item $C$中$(Major, Cyear) \rightarrow Cno$, 去掉左部的任意一个属性，则无法推导出右部属性，所以该函数依赖是完全函数依赖.
+            \item $SP$中$(Sno, Pname) \rightarrow SPyear$, 去掉左部的任意一个属性，则无法推导出右部属性，所以该函数依赖是完全函数依赖.
+        \end{itemize}
+\end{solution}
+
+\begin{problem}
+    下面的结论哪些是正确的? 哪些是错误的? 对于错误的请给出理由或一个反例说明之.
+    \begin{enumerate}[(1)]
+        \item 任何一个二目关系是属于3NF的.
+        \item 任何一个二目关系是属于BCNF的.
+        \item 任何一个二目关系是属于4NF的.
+        \item 当且仅当函数依赖$A \rightarrow B$在$R$上成立，关系$R(A, B, C)$等于其投影$R_1(A, B)$和$R_2(A, C)$的连接.
+        \item 若$R.A \rightarrow R.B, R.B \rightarrow R.C$, 则$R.A \rightarrow R.C$.
+        \item 若$R.A \rightarrow R.B, R.A \rightarrow R.C$, 则$R.A \rightarrow R.(B, C)$.
+        \item 若$R.B \rightarrow R.A, R.C \rightarrow R.A$, 则$R.(B, C) \rightarrow R.A$.
+        \item 若$R.(B, C) \rightarrow R.A$, 则$R.B \rightarrow R.A, R.C \rightarrow R.A$.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    (1)、(2)、(3)、(5)、(6)、(7)正确，(4)、(8)错误，错误理由如下:
+    \begin{description}
+        \item[(4)] 根据\hyperref[note6.4]{本题注记中的定理}可知，若$A \rightarrow C$成立而$A \rightarrow B$不成立，关系$R(A, B, C)$依旧等于其投影$R_1(A, B)$和$R_2(A, C)$的连接. 题目中的\textbf{当且仅当}错误.
+        \item[(8)] 反例: 以关系模式$SC(Sno, Cno, Grade)$为例，有函数依赖$(Sno, Cno) \rightarrow Grade$, 但$Sno \rightarrow Grade$, $Cno \rightarrow Grade$均不成立.
+    \end{description}
+\end{solution}
+
+\begin{note}\label{note6.4}
+    对于关系模式的等价分解，存在一个保持分解无损依赖的定理:
+
+    设$\rho = \{ R_1, R_2 \}$是关系模式$R$的一个分解，$F$是$R$的函数依赖集，那么$\rho$是$R$(关于$F$)的无损分解的充分必要条件是:
+    $$(R_1 \bigcap R_2) \rightarrow R_1 - R_2 \in F^+ \text{或} (R_1 \bigcap R_2) \rightarrow R_2 - R_1 \in F^+$$
+\end{note}
+
+\begin{problem}
+    证明:
+    \begin{enumerate}[(1)]
+        \item 如果$R$是BCNF关系模式，则$R$是3NF关系模式，反之则不然.
+        \item 如果$R$是3NF关系模式，则$R$一定是2NF关系模式.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+        \begin{enumerate}[(1)]
+            \item 
+                \begin{proof} 
+                    首先证明: 若$R\in$ BCNF, 则$R\in$ 3NF.\newline
+                    假设$R\in$ BCNF, 但$R\not\in$ 3NF, 由3NF的定义可知:\newline 
+                    $R$中存在候选码$X$, 属性组$Y$和非主属性$Z$, 满足
+                    $$X \rightarrow Y, Y \rightarrow Z$$
+                    其中$$Y \not\rightarrow X, Z \not\rightarrow X, Z \not\rightarrow Y$$
+                    由于$Y \not\rightarrow X$, 所以$Y$不可能包含$R$的码，但$Y \rightarrow Z$成立.
+                    根据BCNF的定义，$R\not\in$ BCNF, 与假设矛盾.\newline
+                    所以若$R\in$ BCNF, 则一定有$R\in$ 3NF.\par
+                    接下来证明: $R\in$ 3NF, 但不一定有$R\in$ BCNF.\newline
+                    若$R$中存在主属性对码的部分函数依赖或传递函数依赖，\newline
+                    则$R\in$ 3NF, 但$R\not\in$ BCNF.
+                \end{proof}
+            \item 
+                \begin{proof}
+                    假设$R\in$ 3NF, 但$R\not\in$ 2NF, 由2NF的定义可知:\newline
+                    $R$中存在非主属性$Z$部分函数依赖于候选码$X$, 即$X \xrightarrow{p} Z$.\newline
+                    根据部分函数依赖的定义，$R$中存在$X$的真子集$X' \subset X$, 满足
+                    $$X' \rightarrow Z$$.
+                    于是$R$中存在候选码$X$, 属性组$X'$和非主属性$Z$, 满足
+                    $$X \rightarrow X', X' \rightarrow Z$$
+                    其中$$X' \not\rightarrow X, Z \not\rightarrow X, Z \not\rightarrow X'$$
+                    根据3CNF的定义，$R\not\in$ 3NF, 与假设矛盾.\newline
+                    所以若$R\in$ 3NF, 则一定有$R\in$ 2NF.
+                \end{proof}
+        \end{enumerate}
+\end{solution}
+
+\newpage
+\section{第七章作业}
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+    需求分析阶段得到的数据字典的内容和作用是什么？
+\end{problem}
+    
+\begin{solution}
+    \begin{enumerate}[(1)]
+        \item 数据字典的内容: 通常名括数据项、数据结称、数据流、数据存储和处理过程5个部分. 其中数据项是数据的最小组成单位，若干个数据项可以组成一个数据结构. 数据字典通过对数据项和数据结构的定义来描述数据流、数据存储的逻辑内容.
+        \item 数据字典的作用: 数据字典是关于数据库中的数据的描述，在需求分析建立，是下一步进行概念设计的基础，并在数据库的设计过程中不断修改、充实和完善.
+    \end{enumerate}
+\end{solution}
+
+\begin{problem}
+    规范化理论对数据库设计有什么指导意义？
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[(1)]
+        \item 降低数据存储和维护数据一致性的成本. 即减少数据冗余，减少储存空间的开销; 当数据发生更新(以及插入和删除)的时候，不必同时更新那些冗余数据，降低了维护数据一致性的成本.
+        \item 便于设计合理的关系表间的依赖和约束关系，便于实现数据完整性和一致性，避免插入异常、删除异常、更新异常.
+        \item 便于设计合理的数据库结构，以提高数据库系统的整体性能，如提高查询效率等.
+    \end{enumerate}
+\end{solution}
+
+\begin{note}
+    \begin{figure}[!htpb]
+        \centering
+        \includegraphics[width=12.5cm]{images/sec7/7-3_concept.pdf}
+        \caption{重要概念之间的关系}
+        \label{concept}
+    \end{figure}
+\end{note}
+
+\begin{problem}
+    某工厂生产若干产品，每种产品由不同的零件组成，有的零件可用在不同的产品上. 这些零件由不同的原材料制成，不同零件所用的材料可以相同. 这些零件按所属的不同产品分别放在仓库中，原材料按照类别放在若干仓库中. 请用E-R图画出此工厂产品、零件、材料、仓库的概念模型.
+\end{problem}
+
+\begin{solution}
+    \hyperref[ERD]{E-R图}如下所示:
+    \begin{figure}[!htpb]
+        \centering
+        \includegraphics[width=13cm]{images/sec7/7-2_ER Diagram.pdf}
+        \caption{E-R图}
+        \label{ERD}
+    \end{figure}
 \end{solution}
 
 % \newpage
