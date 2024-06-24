@@ -14,15 +14,17 @@
 % 超链接设置
 \usepackage{hyperref}
 \hypersetup{  
-    colorlinks = true,    % 更改链接颜色  
-    linkcolor = black,      % 链接颜色  
-    urlcolor = blue,        % URL 颜色  
-    citecolor = green,     % 引用颜色  
+    colorlinks = true,     % 更改链接颜色  
+    linkcolor = purple,    % 链接颜色  
+    urlcolor = blue,       % URL 颜色  
+    citecolor = darkgreen, % 引用颜色  
     % underline = true,  
     linkbordercolor = red,
 }
 % \hypersetup{colorlinks=true,linkcolor=black}
 
+% 自定义代码格式，与listings无关
+\usepackage{fancyvrb}
 
 %代码包设置
 \usepackage{listings}
@@ -835,6 +837,8 @@
     有关语义如下: 一个系有若干专业，每个专业每年只招一个班，每个班有若干学生. 一个系的学生住在同一宿舍区. 每个学生可参加若干学会，每个学会有若干学生. 学生参加某学会有一个入会年份.
     
     请给出关系模式，写出每个关系模式的最小依赖集，指出是否存在传递函数依赖，对于函数依赖左部是多属性的情况，讨论函数依赖是完全函数依赖，还是部分函数依赖.
+
+    指出各关系的候选码、外部码，并说明是否全码存在.
 \end{problem}
 
 \begin{solution}
@@ -903,6 +907,29 @@
             \item $C$中$(Major, Cyear) \rightarrow Cno$, 去掉左部的任意一个属性，则无法推导出右部属性，所以该函数依赖是完全函数依赖.
             \item $SP$中$(Sno, Pname) \rightarrow SPyear$, 去掉左部的任意一个属性，则无法推导出右部属性，所以该函数依赖是完全函数依赖.
         \end{itemize}
+    
+    各关系的候选码、外部码、是否全码存在情况如\hyperref[tab:database_relations]{表 6.1 }所示:
+    
+    \begin{longtable}{|c|c|c|c|}
+        \caption{数据库关系表}\label{tab:database_relations} \\
+        \hline
+        关系 & 候选码 & 外部码 & 全码 \\
+        \hline
+        \endfirsthead
+        \hline
+        关系 & 候选码 & 外部码 & 全码 \\
+        \hline
+        \endhead
+        \hline
+        \endfoot
+        \hline
+        \endlastfoot
+        $S$ & $\{ Sno \}$ & $\{ Cno, Dname \}$ & $\varnothing$ \\
+        $C$ & $\{ Cno, (Major, Cyear) \}$ & $\{ Major \}$ & $\varnothing$ \\
+        $D$ & $\{ Dno, Dname \}$ & $\varnothing$ & $\varnothing$ \\
+        $P$ & $\{ Pname \}$ & $\varnothing$ & $\varnothing$ \\
+        $SP$ & $\{ Sno, Pname \}$ & $\{ Sno, Pname \}$ & $\varnothing$ \\
+    \end{longtable}
 \end{solution}
 
 \begin{problem}
@@ -1023,6 +1050,530 @@
         \label{ERD}
     \end{figure}
 \end{solution}
+
+\newpage
+
+% 章节计数器加1
+\stepcounter{section}
+
+\section{第九章作业}
+
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+    分别描述当用下列方式更新 \texttt{Student} 表中记录时，\hyperref[fig:稠密索引]{图 9.1 }的稠密索引、\hyperref[fig:稀疏索引]{图 9.2 }的稀疏索引、\hyperref[fig:多级索引]{图 9.3 }的多级索引、\hyperref[fig:辅助索引]{图 9.4 }的辅助索引、\hyperref[fig:B+树索引]{图 9.5 }的$B^+$树索引和\hyperref[fig:哈希索引]{图 9.6 }的哈希索引分别是如何进行维护的.
+    \begin{enumerate}[(1)]
+        \item 插入\texttt{(20180016, 张婧宁, 女, 2002-1-2, 信息安全)}记录.
+        \item 删除学号为\texttt{20180004}的记录.
+        \item 删除学号为\texttt{20180005}的记录.
+        \item 将学号为\texttt{20180008}的记录的专业改为\texttt{计算机科学与技术}.
+    \end{enumerate}
+\end{problem}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=13cm]{images/sec9/稠密索引.pdf}
+    \caption{稠密索引}
+    \label{fig:稠密索引}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=13cm]{images/sec9/稀疏索引.pdf}
+    \caption{稀疏索引}
+    \label{fig:稀疏索引}
+\end{figure}
+
+\newpage
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=13cm]{images/sec9/多级索引.pdf}
+    \caption{多级索引}
+    \label{fig:多级索引} 
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=13cm]{images/sec9/辅助索引.pdf}
+    \caption{辅助索引}
+    \label{fig:辅助索引}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=13cm]{images/sec9/B+树索引.pdf}
+    \caption{$B^+$树索引}
+    \label{fig:B+树索引}
+\end{figure}
+
+\newpage
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=13cm]{images/sec9/哈希索引.pdf}
+    \caption{哈希索引}
+    \label{fig:哈希索引}
+\end{figure}
+
+\begin{solution}
+    \begin{enumerate}[(1)]
+        \item 插入\texttt{(20180016, 张婧宁, 女, 2002-1-2, 信息安全)}记录.
+            \begin{itemize}
+                \item 稠密索引:
+                
+                    \qquad \texttt{Sno}索引添加新的索引\texttt{20180016}. 
+                \item 稀疏索引:
+                
+                    \qquad \texttt{Sno}索引保持不变.
+                \item 多级索引:
+                
+                    \qquad 二级稀疏索引保持不变，一级稠密索引添加索引\texttt{20180016}.
+                \item 辅助索引:
+                
+                    \qquad \texttt{信息安全}对应指针桶中新增相应索引.
+                \item $B^+$树索引:
+                
+                    \qquad 结果如\hyperref[fig:9-1-1_B+树索引]{图 9.7 }所示.
+                    \begin{figure}[!htbp]
+                        \centering
+                        \includegraphics[width=13cm]{images/sec9/B+Tree_Case_1.png}
+                        \caption{插入\texttt{20180016}后的$B^+$树索引}
+                        \label{fig:9-1-1_B+树索引}
+                    \end{figure}
+                \item 哈希索引:
+                
+                    \qquad 1号桶新增索引\texttt{20180016}.
+                \end{itemize}
+        \item 删除学号为\texttt{20180004}的记录.
+            \begin{itemize}
+                \item 稠密索引:
+                
+                    \qquad \texttt{Sno}索引删除\texttt{20180004}.
+                \item 稀疏索引:
+                    
+                        \qquad \texttt{Sno}索引保持不变.
+                \item 多级索引:
+                    
+                        \qquad 二级稀疏索引保持不变，一级稠密索引删除\texttt{20180004}.
+                \item 辅助索引:
+                        
+                        \qquad \texttt{计算机科学与技术}对应指针桶中删除相应索引.
+                \item $B^+$树索引:
+                            
+                    \qquad 结果如\hyperref[fig:9-1-2_B+树索引]{图 9.8 }所示.
+                            \begin{figure}[!htbp]
+                                \centering
+                                \includegraphics[width=13cm]{images/sec9/B+Tree_Case_2.png}
+                                \caption{删除\texttt{20180004}后的$B^+$树索引}
+                                \label{fig:9-1-2_B+树索引}
+                            \end{figure}
+                \item 哈希索引:
+                
+                    \qquad 1号桶删除索引\texttt{20180004}.
+            \end{itemize}
+        \item 删除学号为\texttt{20180005}的记录.
+            \begin{itemize}
+                \item 稠密索引:
+                
+                    \qquad \texttt{Sno}索引删除\texttt{20180005}.
+                \item 稀疏索引:
+                    
+                    \qquad \texttt{Sno}索引保留\texttt{20180005}，删除表中的相应数据.
+                \item 多级索引:
+                
+                    \qquad 二级稀疏索引保持不变，一级稠密索引删除\texttt{20180005}.
+                \item 辅助索引:
+                
+                    \qquad \texttt{信息管理与信息系统}对应指针桶中删除相应索引.
+                \newpage
+                \item $B^+$树索引:
+                
+                    \qquad 结果如\hyperref[fig:9-1-3_B+树索引]{图 9.9 }所示.
+                    \begin{figure}[!htbp]
+                        \centering
+                        \includegraphics[width=13cm]{images/sec9/B+Tree_Case_3.png}
+                        \caption{删除\texttt{20180005}后的$B^+$树索引}
+                        \label{fig:9-1-3_B+树索引}
+                    \end{figure}
+                \item 哈希索引:
+                
+                    \qquad 2号桶删除索引\texttt{20180005}.
+            \end{itemize}
+        \item 将学号为\texttt{20180008}的记录的专业改为\texttt{计算机科学与技术}.
+            \begin{itemize}
+                \item 稠密索引、稀疏索引、多级索引、$B^+$树索引、哈希索引均保持不变，只需修改表中的相应数据. $B^+$树索引如\hyperref[fig:9-1-4_B+树索引]{图 9.10 }所示.
+                    \begin{figure}[!htbp]
+                        \centering
+                        \includegraphics[width=13cm]{images/sec9/B+Tree_Case_4.png}
+                        \caption{修改\texttt{20180008}后的$B^+$树索引}
+                        \label{fig:9-1-4_B+树索引}
+                    \end{figure}
+                \item 辅助索引:
+                
+                    \qquad 首先从\texttt{数据科学与大数据技术}对应指针桶中删除索引\texttt{20180008}，接着在\texttt{计算机科学与技术}对应指针桶中新增相应索引\texttt{20180008}.
+            \end{itemize}
+    \end{enumerate}
+\end{solution}
+
+\newpage
+\section{第十章作业}
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+    假设关系$R(A, B)$和$S(A, B, C, D)$情况如下: $R$有20000个元组，$S$有1200个元组，一个块能装40个$R$的元组，能装30个$S$的元组，试估算下列操作需要多少次磁盘块读写.
+    \begin{enumerate}[(1)]
+        \item $R$上没有索引.
+            \begin{Verbatim}[frame=single]
+select *
+from R;
+            \end{Verbatim}
+        \item $R$中$A$为主码，$A$有3层$B^+$树索引.
+            \begin{Verbatim}[frame=single]
+select *
+from R
+where A = 10;
+            \end{Verbatim}
+        
+        \item 嵌套循环连接$R \bowtie S$.
+        \item 排序合并连接$R \bowtie S$, 区分$R$与$S$在$B$属性上有序和无序两种情况.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    由题可知
+    \begin{equation*}
+        \begin{aligned}
+            & T(R) = 20000 \\
+            & T(S) = 1200 \\
+            & B(R) = \frac{20000}{40} = 500 \\
+            & B(S) = \frac{1200}{30} = 40 \\
+        \end{aligned}
+    \end{equation*}
+    \begin{enumerate}[(1)]
+        \item 无索引下的范围选择使用线性扫描，该运算的磁盘搜索块数为$B(R)$, 因此磁盘I/O代价为$B(R)$, 即500次.
+        \item 用$h_t$表示$B^+$树索引的高度，则$h_t = 3$. 接下来根据是否采用$B^+$树聚簇索引分情况讨论:
+        \begin{itemize}
+            \item 使用聚簇索引: 由于$B^+$树索引的结构，从磁盘中读取索引的次数为$h_t = 3$, 此外还需要执行一次磁盘读取以从磁盘中读取目标元组所在的磁盘块. 每次磁盘读取需要一次完整I/O操作，则代价可以表示为
+                \begin{equation*}
+                    h_t + 1 = 4
+                \end{equation*}
+            \item 使用非聚簇索引: 记符合选择条件的元组有$n$个. 辅助索引查找键顺序与数据文件记录顺序不一致，也就是符合选择条件的每条元组的存储位置可能位于物理位置不相邻的磁盘块. 与聚簇索引下的等值选择的区别是每条符合选择条件的元组都需要一次磁盘I/O. 所以该情况下的选择运算总代价是
+                \begin{equation*}
+                    h_t + n = 3 + n
+                \end{equation*}
+                \end{itemize}
+        \item 由于关系$R$是分块读入内存，因此对于外层关系$R$的磁盘I/O次数为$B(R)$. 最外层循环是对关系$R$中的每个记录迭代，则外层循环的迭代次数为$T(R)$. 对于每次外层循环的迭代，需要按块将关系$S$读入内存，读入的内存块数为$B(S)$. 对于内层关系$S$的磁盘I/O次数为$T(R)\cdot B(S)$. 因此，嵌套循环连接的磁盘I/O总代价为
+            \begin{equation*}
+                B(R) + T(R) \cdot B(S) = 500 + 20000 \cdot 40 = 80500
+            \end{equation*}
+        \item 对于关系$R, S$是否已经排好序，分情况讨论:
+            \begin{itemize}
+                \item 有序: 假设两个关系$R, S$是已经排好序的关系，归并连接运算过程中只需要对两个关系顺序读取一次，因此磁盘I/O次数是
+                    \begin{equation*}
+                        B(R) + B(S) = 500 + 40 = 540
+                    \end{equation*}
+                \item 无序: 首先对关系进行排序，主要使用外部归并排序实现. 
+                
+                    \qquad 以关系$R$为例，假设内存中可用的块数为$M$. 排序阶段需要将关系$R$的所有元组读入内存并写回磁盘，因此排序的总磁盘I/O代价为$2B(R)$. 在归并阶段同样需要将所有元组读入内存并写回磁盘，因此每次归并阶段所需的磁盘I/O次数为$2B(R)$, 共需要$\lceil\log_{M - 1}(B(R) / M)\rceil$次归并过程. 因此外部归并排序的磁盘I/O代价为$2\left(\left\lceil\log_{M - 1}(B(R) / M)\right\rceil + 1\right) \cdot B(R)$.
+                    
+                    \qquad 同理，对于关系$S$也需要进行排序，排序的总磁盘I/O代价为$2B(S)$, 归并阶段的磁盘I/O代价为$2\left(\left\lceil\log_{M - 1}(B(S) / M)\right\rceil + 1\right) \cdot B(S)$.
+
+                    \qquad 最后，进行归并连接运算. 因此，排序合并连接的磁盘I/O代价为
+                        \begin{equation*}
+                            \begin{aligned}
+                                & 2\left(\left\lceil\log_{M - 1}(B(R) / M)\right\rceil + 1\right) \cdot B(R) \\
+                                & + 2\left(\left\lceil\log_{M - 1}(B(S) / M)\right\rceil + 1\right) \cdot B(S) \\
+                                & + B(R) + B(S)
+                            \end{aligned}
+                        \end{equation*}
+            \end{itemize}
+    \end{enumerate}
+\end{solution}
+
+\begin{note}
+    查询处理的代价主要是指查询对各种计算资源的消耗，包括磁盘I/O占用、执行查询所用的CPU时间，如果是分布式数据库的话还需要考虑数据通信代价.
+
+    在大型数据库系统中，磁盘I/O代价是最主要的代价，可以\textbf{使用磁盘I/O的块数作为代价度量的指标}.
+
+    \begin{itemize}
+        \item $B(R)$表示关系$R$所占用的磁盘块数.
+        \item $T(R)$表示关系$R$所包含的元组条数.
+        \item $M$表示可用的内存缓冲块数.
+    \end{itemize}
+
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=4cm]{images/sec10/磁盘IO代价度量.pdf}
+        \caption{磁盘I/O代价度量}
+        \label{fig:磁盘IO代价度量}
+    \end{figure}
+
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=13cm]{images/sec10/选择运算代价汇总.pdf}
+        \caption{选择运算代价汇总}
+        \label{fig:选择运算代价汇总}
+    \end{figure}
+
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=13cm]{images/sec10/连接运算代价汇总.pdf}
+        \caption{连接运算代价汇总}
+        \label{fig:连接运算代价汇总}
+    \end{figure}
+\end{note}
+
+\begin{problem}
+    对“学生选课管理”数据库，查询信息管理与信息系统专业学生选修的所有课程名称.
+    \begin{Verbatim}[frame=single]
+SELECT Cname
+FROM Student, Course, SC
+WHERE Student.Sno = SC.Sno
+    AND SC.Cno = Course.Cno
+    AND Student.Smajor = '信息管理与信息系统';
+    \end{Verbatim}
+    试画出用关系代数表示的语法树，并用关系代数表达式优化算法对原始的语法树进行优化处理，画出优化后的标准语法树.
+\end{problem}
+
+\begin{solution}
+    首先构建语法分析树，如\hyperref[fig:语法分析树]{图 10.4 }所示.
+    \begin{figure}[!htpb]
+        \centering
+        \includegraphics[width=\textwidth]{images/sec10/parser-tree.pdf}
+        \caption{语法分析树}
+        \label{fig:语法分析树}
+    \end{figure}
+
+    由语法分析树进行语义分析，进行语义正确性检查，并转化为查询树，如\hyperref[fig:原始查询树]{图 10.5 }所示.
+    \begin{figure}[!htpb]
+        \centering
+        \includegraphics[width=12.5cm]{images/sec10/query-tree.jpg}
+        \caption{原始查询树}
+        \label{fig:原始查询树}
+    \end{figure}
+
+    使用重写规则
+    \begin{equation*}
+        \begin{aligned}
+            & \sigma_{p_1 \land p_2}(R) = \sigma_{p_1}\left(\sigma_{p_2}\left(R\right)\right) \\
+            & \sigma_p\left(R_1 \times R_2\right) = R_1 \bowtie_p R_2 \\ 
+        \end{aligned}
+    \end{equation*}
+    尽可能多地做选择下推与笛卡尔积转连接，最终得到优化后的查询树，如\hyperref[fig:优化查询树]{图 10.6 }所示.
+    \begin{figure}[!htpb]
+        \centering
+        \includegraphics[width=13cm]{images/sec10/optimized-query-tree.jpg}
+        \caption{优化查询树}
+        \label{fig:优化查询树}
+    \end{figure}
+
+    其关系代数表达式为
+    \begin{equation*}
+        \Pi_{Cname}\left(\left(\left(\sigma_{Smajor = '\text{信息管理与信息系统}'}\left(Student\right)\right) \bowtie_{Student.Sno = SC.Sno} SC\right) \bowtie_{SC.Cno = Course.Cno} Course\right)
+    \end{equation*}
+\end{solution}
+
+\begin{note}
+    \href{https://www.antlr.org/}{ANTLR}是基于LL算法实现的语法解析器生成器，用Java语言编写，使用自上而下的递归下降LL剖析器方法.
+    其功能强大，支持词法分析、语法分析等多种功能. 通过学习ANTLR4语法，可以实现自定义语法解析器，实现对SQL语句的解析.
+
+    \href{http://lab.antlr.org/}{http://lab.antlr.org/}是一个在线的ANTLR4网站，无需在本地部署ANTLR4环境，即可在线编写ANTLR4语法，生成对应的解析器. \hyperref[fig:语法分析树]{图 10.4 }就是通过ANTLR4在线工具生成的语法分析树.
+
+    \href{https://dbis-uibk.github.io/relax/landing}{RelaX}是一个在线工具，支持 SQL 语句与关系代数表达式的相互转化，同时支持查询树的生成. \hyperref[fig:原始查询树]{图 10.5 }和\hyperref[fig:优化查询树]{图 10.6 }就是通过RelaX在线工具生成的查询树.
+\end{note}
+
+\newpage
+\section{第十一章作业}
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+考虑\hyperref[log:example]{表 11.1 }所示的日志记录:
+\begin{enumerate}[(1)]
+    \item 如果系统故障发生在序号14之后，说明哪些事务需要重做，哪些事务需要回滚.
+    \item 如果系统故障发生在序号10之后，说明哪些事务需要重做，哪些事务需要回滚.
+    \item 如果系统故障发生在序号9之后，说明哪些事务需要重做，哪些事务需要回滚.
+    \item 如果系统故障发生在序号7之后，说明哪些事务需要重做，哪些事务需要回滚.
+\end{enumerate}
+\begin{longtable}{c|l}
+    \caption{日志记录实例}\label{log:example} \\
+    \hline
+    \textbf{序号} & \multicolumn{1}{c}{\textbf{日志}} \\
+    \hline
+    1  & T$_1$: 开始 \\
+    2  & T$_1$: 写$A, A = 10$ \\
+    3  & T$_2$: 开始 \\
+    4  & T$_2$: 写$B, B = 9$ \\
+    5  & T$_1$: 写$C, C = 11$ \\
+    6  & T$_1$: 提交 \\
+    7  & T$_2$: 写$C, C = 13$ \\
+    8  & T$_3$: 开始 \\
+    9  & T$_3$: 写$A, A = 8$ \\
+    10 & T$_2$: 回滚 \\
+    11 & T$_3$: 写$B, B = 7$ \\
+    12 & T$_4$: 开始 \\
+    13 & T$_3$: 提交 \\
+    14 & T$_4$: 写$C, C = 12$ \\
+    \hline
+\end{longtable}
+\end{problem}
+
+\begin{solution}
+\begin{enumerate}[(1)]
+    \item
+        \begin{itemize}
+            \item T$_1$、T$_3$在崩溃以前就已经提交，T$_2$在崩溃以前就已经终止，因此需要被重做.
+                \begin{itemize}
+                    \item 日志2、4、5、7、9、11需要被重做.
+                \end{itemize}
+            \item T$_2$、T$_4$在崩溃之前没有结束，需要回滚.
+                \begin{itemize}
+                    \item 日志14需要回滚.
+                \end{itemize}
+        \end{itemize}
+    \item 
+        \begin{itemize}
+            \item T$_1$在崩溃以前就已经提交，T$_2$在崩溃以前就已经终止，因此需要被重做.
+                \begin{itemize}
+                    \item 日志2、4、5、7需要被重做.
+                \end{itemize}
+            \item T$_3$在崩溃之前没有结束，需要回滚.
+                \begin{itemize}
+                    \item 日志9需要回滚.
+                \end{itemize}
+        \end{itemize}
+    \item 
+        \begin{itemize}
+            \item T$_1$在崩溃以前就已经提交，T$_2$在崩溃以前就已经终止，因此需要被重做.
+                \begin{itemize}
+                    \item 日志2、4、5、7需要被重做.
+                \end{itemize}
+            \item T$_3$在崩溃之前没有结束，需要回滚.
+                \begin{itemize}
+                    \item 日志9需要回滚.
+                \end{itemize}
+        \end{itemize}
+    \item 
+        \begin{itemize}
+            \item T$_1$在崩溃以前就已经提交，因此需要被重做.
+                \begin{itemize}
+                    \item 日志2、5、7需要被重做.
+                \end{itemize}
+            \item T$_2$在崩溃之前没有结束，需要回滚.
+                \begin{itemize}
+                    \item 日志4需要回滚.
+                \end{itemize}
+        \end{itemize}
+\end{enumerate}
+\end{solution}
+
+\begin{note}
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=13cm]{images/sec11/事务控制日志记录.pdf}
+        \caption{事务控制日志记录}
+        \label{fig:事务控制日志记录}
+    \end{figure}
+    \newpage
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=13cm]{images/sec11/恢复分析.pdf}
+        \caption{恢复分析}
+        \label{fig:恢复分析}
+    \end{figure}
+\end{note}
+
+\newpage
+\section{第十二章作业}
+% 计数器置零
+\setcounter{problemname}{0}
+
+\begin{problem}
+今有三个事务的调度，如\hyperref[tab:transaction_schedule]{表 12.1 }所示，该调度是冲突可串行化的调度吗？为什么？
+\begin{longtable}{c|ccc}
+    \caption{事务调度}\label{tab:transaction_schedule} \\
+    \textbf{时刻} & \bf $T_1$ & \bf $T_2$ & \bf $T_3$ \\
+    \hline
+    $t_1$ & & & $R_3(B)$ \\
+    $t_2$ & $R_1(A)$ & & \\
+    $t_3$ & & & $W_3(B)$ \\
+    $t_4$ & & $R_2(B)$ & \\
+    $t_5$ & & $R_2(A)$ & \\
+    $t_6$ & & $W_2(B)$ & \\
+    $t_7$ & $R_1(B)$ & & \\
+    $t_8$ & $W_1(A)$ & & \\
+\end{longtable}
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[$1^\circ$]
+        \item 交换$t_1$与$t_3$的顺序，得到
+            \begin{longtable}{c|ccc}
+                \textbf{时刻} & \bf $T_1$ & \bf $T_2$ & \bf $T_3$ \\
+                \hline
+                $t_1$ & & & $R_3(B)$ \\
+                $t_2$ & & & $W_3(B)$ \\
+                $t_3$ & $R_1(A)$ & & \\
+                $t_4$ & & $R_2(B)$ & \\
+                $t_5$ & & $R_2(A)$ & \\
+                $t_6$ & & $W_2(B)$ & \\
+                $t_7$ & $R_1(B)$ & & \\
+                $t_8$ & $W_1(A)$ & & \\
+            \end{longtable}
+        \item 交换$t_3$与$t_4$的顺序，得到
+            \begin{longtable}{c|ccc}
+                \textbf{时刻} & \bf $T_1$ & \bf $T_2$ & \bf $T_3$ \\
+                \hline
+                $t_1$ & & & $R_3(B)$ \\
+                $t_2$ & & & $W_3(B)$ \\
+                $t_3$ & & $R_2(B)$ & \\
+                $t_4$ & $R_1(A)$ & & \\
+                $t_5$ & & $R_2(A)$ & \\
+                $t_6$ & & $W_2(B)$ & \\
+                $t_7$ & $R_1(B)$ & & \\
+                $t_8$ & $W_1(A)$ & & \\
+            \end{longtable}
+        \item 交换$t_4$与$t_5$的顺序，得到
+            \begin{longtable}{c|ccc}
+                \textbf{时刻} & \bf $T_1$ & \bf $T_2$ & \bf $T_3$ \\
+                \hline
+                $t_1$ & & & $R_3(B)$ \\
+                $t_2$ & & & $W_3(B)$ \\
+                $t_3$ & & $R_2(B)$ & \\
+                $t_4$ & & $R_2(A)$ & \\
+                $t_5$ & $R_1(A)$ & & \\
+                $t_6$ & & $W_2(B)$ & \\
+                $t_7$ & $R_1(B)$ & & \\
+                $t_8$ & $W_1(A)$ & & \\
+            \end{longtable}
+        \item 交换$t_5$与$t_6$的顺序，得到
+            \begin{longtable}{c|ccc}
+                \textbf{时刻} & \bf $T_1$ & \bf $T_2$ & \bf $T_3$ \\
+                \hline
+                $t_1$ & & & $R_3(B)$ \\
+                $t_2$ & & & $W_3(B)$ \\
+                $t_3$ & & $R_2(B)$ & \\
+                $t_4$ & & $R_2(A)$ & \\
+                $t_5$ & & $W_2(B)$ & \\
+                $t_6$ & $R_1(A)$ & & \\
+                $t_7$ & $R_1(B)$ & & \\
+                $t_8$ & $W_1(A)$ & & \\
+            \end{longtable}
+    \end{enumerate}
+    此时已经串行化，因此该调度是冲突可串行化的调度.
+\end{solution}
+\newpage
+\begin{note}
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=13cm]{images/sec12/冲突可串行化调度.pdf}
+        \caption{冲突可串行化调度}
+        \label{fig:冲突可串行化调度}
+    \end{figure}
+\end{note}
 
 % \newpage
 % \section{第x章作业}
