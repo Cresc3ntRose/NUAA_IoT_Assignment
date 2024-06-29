@@ -1460,11 +1460,11 @@ WHERE Student.Sno = SC.Sno
         \begin{itemize}
             \item T$_1$在崩溃以前就已经提交，因此需要被重做.
                 \begin{itemize}
-                    \item 日志2、5、7需要被重做.
+                    \item 日志2、5需要被重做.
                 \end{itemize}
             \item T$_2$在崩溃之前没有结束，需要回滚.
                 \begin{itemize}
-                    \item 日志4需要回滚.
+                    \item 日志4、7需要回滚.
                 \end{itemize}
         \end{itemize}
 \end{enumerate}
